@@ -48,18 +48,14 @@ class SimpleReflexAgent:
             'Right'
         ]
 
-
     def sense_and_act(self, percept):
+        if percept.get('food_here'):
+            return 'Up'
 
-        if percept['food_here']:
-            return "Up"
+        if percept.get('wall_ahead'):
+            return 'Left'
 
-        if percept['wall_ahead']:
-            return random.choice(
-                ['Left','Right','Down','Up']
-            )
-
-        return "Up"
+        return 'Up'
 
 
 
@@ -70,31 +66,38 @@ class SimpleReflexAgent:
 
 class ModelBasedAgent:
 
-
     def __init__(self):
-
-        self.memory = []
+        self.memory = {}
         self.last_action = None
+        self.last_percept = None
+        self.action_order = ['Up', 'Left', 'Right', 'Down']
 
+    def _alternate_action(self):
+        if self.last_action is None:
+            return 'Left'
+
+        choices = [action for action in self.action_order if action != self.last_action]
+        return choices[0]
 
     def sense_and_act(self, percept):
+        percept_key = tuple(sorted(percept.items()))
+        seen_before = percept_key in self.memory
 
-        if percept not in self.memory:
-
-            self.memory.append(percept)
-            action = "Up"
-
+        if percept.get('food_here'):
+            action = 'Up'
+        elif percept.get('wall_ahead'):
+            if seen_before:
+                action = self._alternate_action()
+            else:
+                action = 'Left'
         else:
+            if seen_before:
+                action = self._alternate_action()
+            else:
+                action = 'Up'
 
-            actions = [
-                "Left",
-                "Right",
-                "Down"
-            ]
-
-            action = random.choice(actions)
-
-
+        self.memory[percept_key] = self.memory.get(percept_key, 0) + 1
+        self.last_percept = percept
         self.last_action = action
 
         return action

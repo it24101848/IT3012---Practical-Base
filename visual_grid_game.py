@@ -10,6 +10,7 @@ class VisualGridHuntGame:
         self.width = width
         self.height = height
         self.agent_pos = [0, 0]  # Starting position (x, y)
+        self.agent_facing = 'Up'
 
         if custom_walls is not None:
             self.walls = set(custom_walls)
@@ -40,11 +41,20 @@ class VisualGridHuntGame:
         self.collision = False
 
     def get_percept(self) -> dict:
+        direction_offsets = {
+            'Up': (0, 1),
+            'Down': (0, -1),
+            'Left': (-1, 0),
+            'Right': (1, 0)
+        }
+        dx, dy = direction_offsets[self.agent_facing]
+        ahead_x = self.agent_pos[0] + dx
+        ahead_y = self.agent_pos[1] + dy
+        ahead_pos = (ahead_x, ahead_y)
+
         return {
-            'agent_pos': list(self.agent_pos),
-            'opponent_positions': [list(op) for op in self.opponents],
-            'smells_food': tuple(self.agent_pos) in self.food_positions,
-            'hit_wall': tuple(self.agent_pos) in self.walls,
+            'wall_ahead': ahead_pos in self.walls,
+            'food_here': tuple(self.agent_pos) in self.food_positions,
             'collision': self.collision,
             'score': self.score,
             'remaining_food': len(self.food_positions)
@@ -52,6 +62,7 @@ class VisualGridHuntGame:
 
     def execute_action(self, action: str):
         self.steps += 1
+        self.agent_facing = action
         new_pos = list(self.agent_pos)
 
         if action == 'Up':
@@ -99,8 +110,15 @@ class GridGameGUI:
         self.root = root
         self.root.title("IT3012 - Scalable Multi-Agent Grid Hunt")
 
+        self.width = width
+        self.height = height
+        self.num_food = num_food
+        self.num_opponents = num_opponents
+        self.walls = walls
+
         self.env = VisualGridHuntGame(width=width, height=height, num_food=num_food, num_opponents=num_opponents,
                                       custom_walls=walls)
+        self.running = False
 
         # Dynamically calculate cell size so the total canvas fits nicely within a 600x600 window ceiling
         max_canvas_dim = 600
@@ -119,6 +137,12 @@ class GridGameGUI:
                              fg="white")
         self.btn.pack(pady=5)
 
+        self.draw_grid()
+
+    def reset_env(self):
+        self.env = VisualGridHuntGame(width=self.width, height=self.height, num_food=self.num_food,
+                                      num_opponents=self.num_opponents, custom_walls=self.walls)
+        self.label.config(text="Score: 0 | Steps: 0")
         self.draw_grid()
 
     def draw_grid(self):
@@ -161,6 +185,13 @@ class GridGameGUI:
                                 outline="#1e3a8a")
 
     def run_loop(self):
+        if self.running:
+            return
+
+        if self.env.is_done():
+            self.reset_env()
+
+        self.running = True
         self.btn.config(state="disabled")
 
         def step():
@@ -172,6 +203,7 @@ class GridGameGUI:
                 self.label.config(text=f"Score: {self.env.score} | Steps: {self.env.steps} | Action: {action}")
                 self.root.after(250, step)
             else:
+                self.running = False
                 end_text = f"Collision! Game Over! Final Score: {self.env.score}" if self.env.collision else f"Finished! Final Score: {self.env.score}"
                 self.label.config(text=end_text)
                 self.btn.config(state="normal")

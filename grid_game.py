@@ -9,6 +9,7 @@ class GridHuntGame:
         self.width = width
         self.height = height
         self.agent_pos = [0, 0]  # Starting position (x, y)
+        self.agent_facing = 'Up'
 
         # Place a few random food pellets and obstacles (walls)
         self.food_positions = {(1, 2), (2, 3), (3, 0), (2, 1)}
@@ -18,16 +19,27 @@ class GridHuntGame:
         self.steps = 0
 
     def get_percept(self, agent) -> dict:
+        direction_offsets = {
+            'Up': (0, 1),
+            'Down': (0, -1),
+            'Left': (-1, 0),
+            'Right': (1, 0)
+        }
+        dx, dy = direction_offsets[self.agent_facing]
+        ahead_x = self.agent_pos[0] + dx
+        ahead_y = self.agent_pos[1] + dy
+        ahead_pos = (ahead_x, ahead_y)
+
         return {
-            'agent_pos': list(self.agent_pos),
-            'smells_food': tuple(self.agent_pos) in self.food_positions,
-            'hit_wall': tuple(self.agent_pos) in self.walls,
+            'wall_ahead': ahead_pos in self.walls,
+            'food_here': tuple(self.agent_pos) in self.food_positions,
             'score': self.score,
             'remaining_food': len(self.food_positions)
         }
 
     def execute_action(self, agent, action: str):
         self.steps += 1
+        self.agent_facing = action
         new_pos = list(self.agent_pos)
 
         if action == 'Up':
