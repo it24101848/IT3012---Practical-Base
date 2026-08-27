@@ -31,6 +31,7 @@ class GridHuntGame:
         ahead_pos = (ahead_x, ahead_y)
 
         return {
+            'agent_pos': tuple(self.agent_pos),
             'wall_ahead': ahead_pos in self.walls,
             'food_here': tuple(self.agent_pos) in self.food_positions,
             'score': self.score,
