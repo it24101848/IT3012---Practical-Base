@@ -1,0 +1,14 @@
+Known optimum z = 67165, capacity C = 17689, seeds = [42, 43, 44, 45, 46]
+Reference for convergence speed = median of baseline final best fitness = 67165
+
+Variant                                    mean +- sd     min     max  reached  median gen   gen@99%  end diversity  end infeas.
+Baseline (k=3, 2pt, pm=0.02)        67165.0 +- 0.0       67165   67165      5/5          75        35         0.1936         0.22
+Tournament k=2                      66885.2 +- 311.6     66498   67165      2/5 Not reached        98         0.2597         0.19
+Tournament k=4                      67165.0 +- 0.0       67165   67165      5/5          58        29         0.1654         0.24
+Roulette                            62546.2 +- 1304.4    60919   63765      0/5 Not reached Not reached         0.4394         0.07
+Rank                                67055.2 +- 100.2     66982   67165      2/5 Not reached        80         0.2602         0.18
+1-point crossover                   67128.4 +- 81.8      66982   67165      4/5          99        40         0.1824         0.26
+Uniform crossover                   67128.4 +- 81.8      66982   67165      4/5         132        35         0.2208         0.21
+pm = 0.01                           67165.0 +- 0.0       67165   67165      5/5          43        23         0.0781         0.23
+pm = 0.05                           65808.4 +- 368.3     65335   66250      0/5 Not reached Not reached         0.3520         0.23
+pm = 0.10                           63181.4 +- 1113.7    62029   64591      0/5 Not reached Not reached         0.4447         0.27

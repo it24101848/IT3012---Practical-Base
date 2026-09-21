@@ -1,0 +1,51 @@
+variant,seed,final_best_fitness,best_value,best_weight,capacity,feasible,generation_to_baseline_median
+"Baseline (k=3, 2pt, pm=0.02)",42,67165,67165,17685,17689,True,57
+"Baseline (k=3, 2pt, pm=0.02)",43,67165,67165,17685,17689,True,135
+"Baseline (k=3, 2pt, pm=0.02)",44,67165,67165,17685,17689,True,96
+"Baseline (k=3, 2pt, pm=0.02)",45,67165,67165,17685,17689,True,75
+"Baseline (k=3, 2pt, pm=0.02)",46,67165,67165,17685,17689,True,57
+Tournament k=2,42,67165,67165,17685,17689,True,91
+Tournament k=2,43,67165,67165,17685,17689,True,69
+Tournament k=2,44,66616,66616,17622,17689,True,Not reached
+Tournament k=2,45,66982,66982,17664,17689,True,Not reached
+Tournament k=2,46,66498,66498,17526,17689,True,Not reached
+Tournament k=4,42,67165,67165,17685,17689,True,62
+Tournament k=4,43,67165,67165,17685,17689,True,55
+Tournament k=4,44,67165,67165,17685,17689,True,58
+Tournament k=4,45,67165,67165,17685,17689,True,39
+Tournament k=4,46,67165,67165,17685,17689,True,66
+Roulette,42,63180,63180,17640,17689,True,Not reached
+Roulette,43,63765,63765,16965,17689,True,Not reached
+Roulette,44,60919,60919,17463,17689,True,Not reached
+Roulette,45,63493,63493,17511,17689,True,Not reached
+Roulette,46,61374,61374,16938,17689,True,Not reached
+Rank,42,66982,66982,17664,17689,True,Not reached
+Rank,43,66982,66982,17664,17689,True,Not reached
+Rank,44,66982,66982,17664,17689,True,Not reached
+Rank,45,67165,67165,17685,17689,True,175
+Rank,46,67165,67165,17685,17689,True,164
+1-point crossover,42,67165,67165,17685,17689,True,89
+1-point crossover,43,67165,67165,17685,17689,True,83
+1-point crossover,44,66982,66982,17664,17689,True,Not reached
+1-point crossover,45,67165,67165,17685,17689,True,99
+1-point crossover,46,67165,67165,17685,17689,True,108
+Uniform crossover,42,67165,67165,17685,17689,True,132
+Uniform crossover,43,66982,66982,17664,17689,True,Not reached
+Uniform crossover,44,67165,67165,17685,17689,True,66
+Uniform crossover,45,67165,67165,17685,17689,True,69
+Uniform crossover,46,67165,67165,17685,17689,True,181
+pm = 0.01,42,67165,67165,17685,17689,True,43
+pm = 0.01,43,67165,67165,17685,17689,True,50
+pm = 0.01,44,67165,67165,17685,17689,True,45
+pm = 0.01,45,67165,67165,17685,17689,True,19
+pm = 0.01,46,67165,67165,17685,17689,True,38
+pm = 0.05,42,66250,66250,17580,17689,True,Not reached
+pm = 0.05,43,65571,65571,17667,17689,True,Not reached
+pm = 0.05,44,65819,65819,17613,17689,True,Not reached
+pm = 0.05,45,66067,66067,17559,17689,True,Not reached
+pm = 0.05,46,65335,65335,17475,17689,True,Not reached
+pm = 0.10,42,64591,64591,17637,17689,True,Not reached
+pm = 0.10,43,62248,62248,16626,17689,True,Not reached
+pm = 0.10,44,62029,62029,17343,17689,True,Not reached
+pm = 0.10,45,64042,64042,17574,17689,True,Not reached
+pm = 0.10,46,62997,62997,17619,17689,True,Not reached

@@ -1,0 +1,36 @@
+Practical 06 validation - 2026-09-21
+
+Environment: Python 3.13.5; DEAP 1.4.4; matplotlib 3.11.2.
+Read all 7 pages of SE3062_2026_7_3_ Practical 06 _ CourseWeb.pdf.
+
+PASS: Practical_06/.venv/Scripts/python.exe -u Practical_06/deap_ga.py
+      All 10 variants x 5 seeds x 200 generations completed; exit code 0.
+PASS: python -m py_compile Practical_06/deap_ga.py
+PASS: python test_suite.py - 4 tests run, 4 passed, 0 failed.
+      Existing suite covers reflex agents and BFS, not all Practical 04/05 behavior.
+
+Independent result checks executed using Python assertions:
+PASS: 50 final-result rows, 10 summary rows, 10,050 history rows.
+PASS: Every run has generations 0 through 200 with nondecreasing best fitness.
+PASS: Every final solution is feasible; history endpoints match final fitness.
+PASS: Sample SDs, means and first threshold-reaching generations recomputed.
+PASS: One-factor-at-a-time settings checked against the baseline.
+PASS: Seed-42 baseline chromosome independently recomputed:
+      100 binary genes, value 67165, weight 17685 <= capacity 17689.
+PASS: Exact dynamic programming independently confirms local optimum 67165.
+PASS: Two short runs with identical settings and seed reproduce identical histories.
+PASS: Feasible and overweight fitness arithmetic; unreachable threshold behavior.
+PASS: Truncated dataset and single-seed CLI rejected before experiments.
+PASS: Four PNG files decode and were visually inspected for titles, axes and legends.
+
+Dataset archive match: NOT VERIFIED - source archive download timed out.
+Author's index is accessible; existing source attribution is preserved and qualified.
+Dataset file was not modified. No invented data substituted.
+
+Repository initially: branch Practical_05; .gitignore modified; Practical_06 untracked.
+Practical 01-05 files were not edited. No commit, push or branch change performed.
+The existing .gitignore excludes .venv/, __pycache__/ and *.py[cod].
+PASS: git diff --check; git check-ignore confirms environment and cache exclusions.
+Final git status: .gitignore modified (pre-existing); Practical_06/ untracked.
+Final tracked diff: .gitignore | 1 insertion; no Practical 01-05 changes.
+Optional harder-instance experiment was not performed.
