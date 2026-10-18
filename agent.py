@@ -14,6 +14,7 @@ import random
 import math
 from collections import deque
 import heapq
+from logic_engine import KnowledgeBase
 
 
 class GreedyGridAgent:
@@ -116,6 +117,10 @@ class SearchAgent:
     def __init__(self):
         self.plan = []
         self.active_algo = 'BFS'
+        self.kb = KnowledgeBase()
+        # Practical 7 safety rules (Horn clauses)
+        self.kb.tell_rule(['TargetVisible', 'HasDust'], 'SafeToEngage')
+        self.kb.tell_rule(['SafeToEngage', 'BloodseekerMissing'], 'Retreat')
 
     @staticmethod
     def _neighbors(position, walls, grid_size):
@@ -205,8 +210,11 @@ class SearchAgent:
             goal_pos,
             walls,
             grid_size,
-            heuristic_type='manhattan'
+            heuristic_type='manhattan',
+            tile_facts=None
     ):
+        if tile_facts is None:
+            tile_facts = {}
         heuristics = {
             'manhattan': self.manhattan_distance,
             'euclidean': self.euclidean_distance
@@ -225,6 +233,14 @@ class SearchAgent:
 
             for new_pos, action in self._neighbors(current_pos, wall_positions, grid_size):
                 if new_pos not in reached_states:
+                    # Feasibility check: ask the Knowledge Base before expanding
+                    self.kb.clear_facts()
+                    for fact in tile_facts.get(new_pos, []):
+                        self.kb.tell_fact(fact)
+                    self.kb.forward_chain()
+                    if 'Retreat' in self.kb.facts:
+                        continue  # Infeasible tile: reachable, but unsafe
+
                     reached_states.add(new_pos)
                     new_g_cost = g_cost + 1
                     new_f_cost = new_g_cost + heuristic(new_pos, goal_pos)
@@ -251,6 +267,16 @@ class SearchAgent:
                     'AStar': self.astar_search
                 }
                 search = search_methods.get(self.active_algo, self.bfs_search)
-                self.plan = search(start, goal, percept['walls'], percept['grid_size']) or []
+                if self.active_algo == 'AStar':
+                    tile_facts = {
+                        (1, 0): ['TargetVisible', 'HasDust', 'BloodseekerMissing'],  # deduces Retreat: blocked
+                        (0, 1): ['TargetVisible', 'HasDust'],                        # SafeToEngage only: allowed
+                    }
+                    self.plan = self.astar_search(
+                        start, goal, percept['walls'], percept['grid_size'],
+                        tile_facts=tile_facts
+                    ) or []
+                else:
+                    self.plan = search(start, goal, percept['walls'], percept['grid_size']) or []
 
         return self.plan.pop(0) if self.plan else 'Up'
